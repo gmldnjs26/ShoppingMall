@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ProductDAO">
+	<insert id="insertProduct">
+	<![CDATA[
+		INSERT INTO PRODUCT(PSEQ,KIND,NAME,PRICE1,PRICE2,PRICE3,CONTENT,IMAGE)
+				VALUES(product_seq.nextval,#{name},#{price1},#{price2},#{price3},#{content},#{image})
+	]]>
+	</insert>
+	<select id="getNewProductList" resultType="product">
+	<![CDATA[
+		SELECT * FROM NEW_PRO_VIEW
+	]]>
+	</select>
+	
+	<select id="getBestProductList" resultType="product">
+	<![CDATA[
+		SELECT * FROM BEST_PRO_VIEW
+	]]>
+	</select>
+	
+	<select id="getProduct" resultType="product" parameterType="product">
+	<![CDATA[
+		SELECT * FROM PRODUCT WHERE PSEQ=#{pseq}
+	]]>	
+	</select>
+	
+	<select id="getKindListProduct" resultType="product" parameterType="product">
+	<![CDATA[
+		SELECT * FROM PRODUCT WHERE KIND=#{kind}
+	]]>
+	</select>
+	
+	<select id="getTotalRecord" resultType="int" parameterType="String">
+	<![CDATA[
+		SELECT COUNT(*) FROM PRODUCT WHERE NAME LIKE '%'||#{pname}||'%'
+	]]>
+	</select>
+	
+	<select id="getCurrentProductList" resultType="product" parameterType="Map">
+	<![CDATA[
+		SELECT * FROM (SELECT ROWNUM R,A.*
+							FROM (SELECT * FROM PRODUCT ORDER BY PSEQ) A)
+		WHERE R BETWEEN #{currp}*5-4 AND #{currp}*5
+		AND NAME LIKE '%'||#{pname}||'%'
+	]]>
+	</select>
+	
+	
+</mapper>

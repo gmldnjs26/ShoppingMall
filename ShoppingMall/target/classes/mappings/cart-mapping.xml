@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CartDAO">
+	<select id="getListCart" resultType="cart" parameterType="String">
+	<![CDATA[
+		SELECT * FROM CART_VIEW WHERE ID=#{id}
+	]]>
+	</select>
+	
+	<insert id="insertCart" parameterType="cart">
+	<![CDATA[
+		INSERT INTO CART(CSEQ,ID,PSEQ,QUANTITY) VALUES(CART_SEQ.NEXTVAL,#{id},#{pseq},#{quantity})
+	]]>
+	</insert>
+	
+	<delete id="deleteCart" parameterType="cart">
+	<![CDATA[
+		DELETE CART WHERE CSEQ=#{cseq}
+	]]>
+	</delete>
+	
+</mapper>
